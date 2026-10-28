@@ -30,3 +30,10 @@ endif()
 
 find_package(BLAS REQUIRED)
 target_link_libraries(LinAlgebra PUBLIC ${BLAS_LIBRARIES} ${BLAS_LINKER_FLAGS})
+
+# tests, run with: ctest --test-dir <build directory> --output-on-failure
+# (as part of FasterCap, whose ctest runs them too)
+if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+    enable_testing()
+endif()
+add_subdirectory(tests)
