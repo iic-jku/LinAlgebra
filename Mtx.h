@@ -381,7 +381,7 @@ inline CLin_Vector matmult(const CLin_Matrix  &A, const CLin_Vector &x)
                 N,
                 1.0, // Scaling factor for the product of matrix A and vector X
                 A.array(),
-                M,
+                N > 0 ? N : 1, // leading dimension (row-major): length of a row of A
                 x.array(),
                 1,
                 0.0, // Scaling factor for vector Y
@@ -416,12 +416,12 @@ inline CLin_Matrix matmult(const CLin_Matrix &A, const CLin_Matrix &B)
                 K,
                 1.0,      // ALPHA, scaling factor for the product of matrices A and B.
                 A.array(),
-                M,
+                K > 0 ? K : 1, // leading dimensions (row-major): lengths of the rows
                 B.array(),
-                N,
+                N > 0 ? N : 1,
                 0.0,      // BETA, Scaling factor for matrix C
                 tmp.array(),
-                M);
+                N > 0 ? N : 1);
 
 	return tmp;
 }
@@ -447,12 +447,12 @@ inline int matmult(CLin_Matrix &C, const CLin_Matrix &A, const CLin_Matrix &B)
                 K,
                 1.0,      // ALPHA, scaling factor for the product of matrices A and B.
                 A.array(),
-                M,
+                K > 0 ? K : 1, // leading dimensions (row-major): lengths of the rows
                 B.array(),
-                N,
+                N > 0 ? N : 1,
                 0.0,      // BETA, Scaling factor for matrix C
                 C.array(),
-                M);
+                N > 0 ? N : 1);
 
 	return 0;
 }
