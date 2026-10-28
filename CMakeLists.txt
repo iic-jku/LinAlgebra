@@ -1,3 +1,6 @@
+cmake_minimum_required(VERSION 3.12)
+project (LinAlgebra)
+
 set(LinAlgebra_Sources
     Linalg.h
     LUDecomp.cpp
