@@ -2,15 +2,28 @@
 
 ## Repositories
 
-- This is `iic-jku/LinAlgebra` (remote `jku`, formerly `martinjankoehler/LinAlgebra`), a fork
-  of `ediloren/LinAlgebra` (remote `upstream`). Remotes use SSH URLs (`git@github.com:…`).
+- This is `iic-jku/LinAlgebra` (remote `jku`, formerly `martinjankoehler/LinAlgebra`), the
+  maintained fork of `ediloren/LinAlgebra` (remote `upstream`, dormant). Remotes use SSH URLs
+  (`git@github.com:…`).
 - `iic-jku/FasterCap` builds it as the sibling `../LinAlgebra` (`add_subdirectory`); its CI
-  checks out this fork's `master`. Locally, `LinAlgebra` (branch `merged`) is what
-  `FasterCap_MJK` builds, and `LinAlgebra_MJK` holds the topic branches.
-- Fixes meant for upstream go on branches based on `upstream/master`, one concern each, as
-  for the open PRs `ediloren/LinAlgebra#1`–`#4`.
+  checks out this fork's `master`, and its `ctest` runs the tests here too. Locally,
+  `FasterCap_MJK` builds the `LinAlgebra` checkout, and `LinAlgebra_MJK` holds the branches.
+- The repository stays in ediloren's fork network while PRs to upstream are open, so GitHub
+  proposes `ediloren/LinAlgebra` as the base of a new PR: pick `iic-jku/LinAlgebra` `master`.
 - `LinAlgebraTest` (`martinjankoehler/LinAlgebraTest`) compares timings and results of the
   original and the fork.
+
+## Branches
+
+- `master` is `upstream/master` plus merge commits (`--no-ff`) of feature branches only;
+  `master-backup-<date>` branches keep earlier histories. Feature branches are never deleted.
+- Changes offered upstream (`ediloren/LinAlgebra#1`–`#4`: `cmake-project-name-fix`,
+  `correct-capitalized-includes`, `blas-optimization`, `unnecessary-debug-include`) live on
+  branches based on `upstream/master`. Fix them with new commits on the branch, never by
+  rewriting it (the PRs show the history), then merge the branch into `master` again.
+- Fork-only changes (CI, AGENTS.md) go on branches based on `master`, e.g. `ci-and-agents`.
+- Tests go on `regression-tests`, based on `master`: every fix gets a test there that fails
+  without it. `master` merges `regression-tests` together with the fixes.
 
 ## Scope
 
@@ -29,9 +42,9 @@
 - BLAS functions abort or return garbage on invalid arguments: keep the size checks of the
   original loops (`CLin_assert`, `LINALG_BOUNDS_CHECK`), including empty vectors and
   matrices.
-- CMake: find BLAS once here and export it with the `LinAlgebra` target
-  (`target_link_libraries(LinAlgebra PUBLIC BLAS::BLAS)`), so FasterCap doesn't repeat the
-  detection. On macOS the Accelerate headers and library must come together.
+- CMake: BLAS is found here and exported with the `LinAlgebra` target (`PUBLIC` definitions,
+  include directory and libraries). On macOS the Accelerate headers and library must come
+  together (`BLA_VENDOR Apple`).
 - Don't duplicate code: extend the shared code rather than adding a variant.
 
 ## Tests
