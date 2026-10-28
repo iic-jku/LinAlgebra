@@ -51,11 +51,13 @@
 
 ## Tests
 
-- Run `ctest --test-dir build --output-on-failure` before calling work done (LinAlgebra
-  builds on its own: `cmake -S . -B build`); FasterCap's `ctest` runs these tests too.
+- Run `ctest --test-dir ../work/build-LinAlgebra --output-on-failure` before calling work
+  done (LinAlgebra builds on its own: `cmake -S . -B ../work/build-LinAlgebra`); FasterCap's
+  `ctest` runs these tests too.
 - Each bug fix gets a test that fails without it, in `tests/`: products compare the BLAS path
   with the plain loops on non-square, square, `1×N` and empty shapes.
-- Check FasterCap after every change: build `FasterCap_MJK` against it and run its `ctest`.
+- Check FasterCap after every change: build it from `../work/FasterCap` and run its `ctest`
+  (see FasterCap's AGENTS.md).
 - No loosened tolerances without a numerical explanation (summation order of BLAS kernels
   is one; differences beyond a few ulps per element are not).
 
