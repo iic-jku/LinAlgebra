@@ -27,9 +27,9 @@
 // basic numerical vector class
 //
 
+#include "STDAFX.H"
 
 #include "Vect.h"
-#include "STDAFX.H"
 
 using namespace std;
 
