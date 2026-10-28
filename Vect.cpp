@@ -27,7 +27,7 @@
 // basic numerical vector class
 //
 
-#include "stdafx.h"
+#include "STDAFX.H"
 
 #include "Vect.h"
 
