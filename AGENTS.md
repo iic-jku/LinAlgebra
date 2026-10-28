@@ -23,7 +23,9 @@
   `correct-capitalized-includes`, `blas-optimization`, `unnecessary-debug-include`) live on
   branches based on `upstream/master`. Fix them with new commits on the branch, never by
   rewriting it (the PRs show the history), then merge the branch into `master` again.
-- Fork-only changes (CI, AGENTS.md) go on branches based on `master`, e.g. `ci-and-agents`.
+- Small fork-only changes (CI, AGENTS.md) go on `fork-only`, based on `master` (first
+  `git merge --ff-only master` there). A separate branch only for a change that needs its
+  own review, e.g. each bug fix.
 - Tests go on `regression-tests`, based on `master`: every fix gets a test there that fails
   without it. `master` merges `regression-tests` together with the fixes.
 
