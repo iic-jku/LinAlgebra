@@ -372,7 +372,8 @@ inline CLin_Vector matmult(const CLin_Matrix  &A, const CLin_Vector &x)
 	M = A.num_rows();
 	N = A.num_cols();
 
-	CLin_Vector tmp(M);
+	// zeroed, as cblas_dgemv() doesn't write it if A has no columns
+	CLin_Vector tmp(M, 0.0);
     
     // Y <- alpha*A*X + beta*Y
     cblas_dgemv(CblasRowMajor,
