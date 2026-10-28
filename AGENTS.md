@@ -6,8 +6,10 @@
   maintained fork of `ediloren/LinAlgebra` (remote `upstream`, dormant). Remotes use SSH URLs
   (`git@github.com:…`).
 - `iic-jku/FasterCap` builds it as the sibling `../LinAlgebra` (`add_subdirectory`); its CI
-  checks out this fork's `master`, and its `ctest` runs the tests here too. Locally,
-  `FasterCap_MJK` builds the `LinAlgebra` checkout, and `LinAlgebra_MJK` holds the branches.
+  checks out this fork's `master`, and its `ctest` runs the tests here too.
+- Locally (`~/Source/FastFieldSolvers`), `LinAlgebra_MJK` is the working checkout;
+  `LinAlgebra`, `LinAlgebra.orig` and `LinAlgebra_orig` are references only. FasterCap builds
+  it through the symlink `work/LinAlgebra` (see FasterCap's AGENTS.md).
 - The repository stays in ediloren's fork network while PRs to upstream are open, so GitHub
   proposes `ediloren/LinAlgebra` as the base of a new PR: pick `iic-jku/LinAlgebra` `master`.
 - `LinAlgebraTest` (`martinjankoehler/LinAlgebraTest`) compares timings and results of the
