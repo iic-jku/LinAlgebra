@@ -10,24 +10,25 @@
 - Locally (`~/Source/FastFieldSolvers`), `LinAlgebra_MJK` is the working checkout;
   `LinAlgebra`, `LinAlgebra.orig` and `LinAlgebra_orig` are references only. FasterCap builds
   it through the symlink `work/LinAlgebra` (see FasterCap's AGENTS.md).
-- The repository stays in ediloren's fork network while PRs to upstream are open, so GitHub
-  proposes `ediloren/LinAlgebra` as the base of a new PR: pick `iic-jku/LinAlgebra` `master`.
+- The repository is standalone, not in ediloren's fork network: new PRs default to
+  `iic-jku/LinAlgebra` `master`. The open upstream PRs `ediloren/LinAlgebra#1`–`#4` come
+  from its branches.
 - `LinAlgebraTest` (`martinjankoehler/LinAlgebraTest`) compares timings and results of the
   original and the fork.
 
 ## Branches
 
-- `master` is `upstream/master` plus merge commits (`--no-ff`) of feature branches only;
-  `master-backup-<date>` branches keep earlier histories. Feature branches are never deleted.
-- Changes offered upstream (`ediloren/LinAlgebra#1`–`#4`: `cmake-project-name-fix`,
-  `correct-capitalized-includes`, `blas-optimization`, `unnecessary-debug-include`) live on
-  branches based on `upstream/master`. Fix them with new commits on the branch, never by
-  rewriting it (the PRs show the history), then merge the branch into `master` again.
-- Small fork-only changes (CI, AGENTS.md) go on `fork-only`, based on `master` (first
-  `git merge --ff-only master` there). A separate branch only for a change that needs its
-  own review, e.g. each bug fix.
-- Tests go on `regression-tests`, based on `master`: every fix gets a test there that fails
-  without it. `master` merges `regression-tests` together with the fixes.
+- Every change to code, CMake files or tests goes issue → branch → PR → `master`: one branch
+  per issue, based on `master`, merged with a merge commit once its CI is green. The PR
+  carries the fix together with its test.
+- CI, `AGENTS.md`, `ReadMe.txt` and other docs, `.gitignore`: changes that don't touch the
+  library are committed directly on `master`, without issue or PR.
+- The branches of the open upstream PRs (`ediloren/LinAlgebra#1`–`#4`:
+  `cmake-project-name-fix`, `correct-capitalized-includes`, `blas-optimization`,
+  `unnecessary-debug-include`) stay based on `upstream/master`: fix them with new commits,
+  never by rewriting them (the PRs show the history), then open a PR from the branch into
+  `master`.
+- `master-backup-<date>` branches keep earlier histories. Branches are never deleted.
 
 ## Scope
 
@@ -78,9 +79,10 @@
 - Commit and PR texts contain only what the reader can't get from the issue, diff or CI.
   PR: issue reference plus 1–4 sentences, no Summary/Changes/Testing headings, and a
   proposed title in the style of the commit subjects.
-- Every PR for a bug references an issue: `Fixes #N` or `Part of #N`; without an issue,
-  file one first. Issues in other repos are written `ediloren/LinAlgebra#N`,
-  `iic-jku/FasterCap#N`.
+- Every PR references its issue: `Fixes #N` or `Part of #N`; without an issue, file one
+  first. Issues in other repos are written `ediloren/LinAlgebra#N`, `iic-jku/FasterCap#N`.
+- Martin pushes and opens the PRs: for each finished branch, say whether it is pushed and
+  propose the PR title and text.
 - Issues show the smallest reproducing input and end with the versions used: commit, OS and
   CPU architecture, compiler, BLAS library and its integer model.
 - Prefer bullet lists to long sentences chained with semicolons; no period at the end of a
