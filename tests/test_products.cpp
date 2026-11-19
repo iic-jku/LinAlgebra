@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstdio>
 #include <initializer_list>
+#include <limits>
 
 #include "Mtx.h"
 
@@ -26,10 +27,16 @@ static CLin_Vector makeVector(CLin_subscript n, double seed)
     return x;
 }
 
+static bool agrees(double obtained, double expected)
+{
+    return std::isfinite(obtained) && std::isfinite(expected) &&
+           std::fabs(obtained - expected) <= 1e-12 * (1.0 + std::fabs(expected));
+}
+
 static void check(const char *what, CLin_subscript m, CLin_subscript k, CLin_subscript n,
                   CLin_subscript i, CLin_subscript j, double obtained, double expected)
 {
-    if (std::fabs(obtained - expected) > 1e-12 * (1.0 + std::fabs(expected))) {
+    if (!agrees(obtained, expected)) {
         std::printf("%s (%lu x %lu) * (%lu x %lu): [%lu][%lu] = %g, expected %g\n",
                     what, m, k, k, n, i, j, obtained, expected);
         failures++;
@@ -88,6 +95,18 @@ static void testDotProduct(CLin_subscript n)
 
 int main()
 {
+    const double nan = std::numeric_limits<double>::quiet_NaN();
+    const double inf = std::numeric_limits<double>::infinity();
+    for (double invalid : {nan, inf, -inf}) {
+        if (agrees(invalid, 1.0) || agrees(1.0, invalid) || agrees(invalid, invalid)) {
+            std::printf("product checker accepted non-finite value\n");
+            failures++;
+        }
+    }
+    if (!agrees(1.0, 1.0) || agrees(1.0, 2.0)) {
+        std::printf("product checker misclassified finite value\n");
+        failures++;
+    }
     const CLin_subscript shapes[][3] = {
         {2, 3, 2}, {3, 2, 4}, {1, 5, 1}, {5, 1, 5}, {4, 4, 4}, {3, 7, 2}, {0, 3, 2}, {2, 0, 3}
     };
